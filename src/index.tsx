@@ -1,14 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import DVRPlayer from './DVR_App/App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import DVRPlayer from "./DVR_App/DVRPlayer";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+
+const baseUrl = "https://a-machinskiy.erlyvideo.ru";
+const streamName = "test";
 
 ReactDOM.render(
   <React.StrictMode>
-    <DVRPlayer />
+    <DVRPlayer baseUrl={baseUrl} streamName={streamName} />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

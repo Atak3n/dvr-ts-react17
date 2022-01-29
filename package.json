@@ -13,7 +13,6 @@
     "sass": "^1.49.0"
   },
   "dependencies": {
-    "@flussonic/flussonic-mse-player": "git+ssh://git@git.erlyvideo.ru/flussonic/mse-player.git#v22.1.2",
     "hls.js": "^1.0.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
