@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="10" viewPort="0 0 30 10" version="1.1">
+  <ellipse cx="5" cy="5" rx="5" ry="5">
+    <animate attributeName="cx" from="5" to="-25" dur="0.6s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="35" cy="5" rx="5" ry="5" class="loader">
+    <animate attributeName="cx" from="35" to="5" dur="0.6s" repeatCount="indefinite"/>
+  </ellipse>
+</svg>

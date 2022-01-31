@@ -21,7 +21,6 @@ const Timeline: React.FC<ChildProps> = ({ from, to, ranges }) => {
     to: number,
     ranges: { duration: number; from: number }[]
   ) => {
-    console.log({ from, to, ranges });
     const timeline = to - from;
     const inPercent = (value: number) => {
       return value / (timeline / 100);
@@ -36,6 +35,28 @@ const Timeline: React.FC<ChildProps> = ({ from, to, ranges }) => {
         type: "buffering",
       });
     }
+    ranges.forEach((range) => {
+      // debugger;
+      const { from: rangeFrom, duration } = range;
+      // check if range in viewpport
+      console.log(from - (rangeFrom + duration));
+      if (rangeFrom + duration > from && rangeFrom < to) {
+        if (rangeFrom > from) {
+          sections.push({
+            from: inPercent(rangeFrom),
+            duration: inPercent(duration) > 100 ? 100 : inPercent(duration),
+            type: "hit",
+          });
+        } else {
+          const newDur = inPercent(rangeFrom + duration - from);
+          sections.push({
+            from: 0,
+            duration: newDur > 100 ? 100 : newDur,
+            type: "hit",
+          });
+        }
+      }
+    });
     setSections(sections);
   };
 

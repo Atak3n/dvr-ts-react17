@@ -14,8 +14,8 @@ const TimelineControl: React.FC<ChildProps> = () => {
         to={Math.round(to / 1000)}
         ranges={[
           {
-            duration: 8510,
-            from: 1643536804,
+            duration: 9670,
+            from: 1643610826,
           },
         ]}
       />
