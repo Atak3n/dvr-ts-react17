@@ -1,9 +1,27 @@
 import React from "react";
-import "./timeline.scss";
+import Timeline from "./timer/Timeline";
+import "./timeline_control.scss";
 interface ChildProps {}
 
 const TimelineControl: React.FC<ChildProps> = () => {
-  return <div className="timeline_control">TimelineControl</div>;
+  // 86400
+  const from = Date.now() - 56400;
+  const to = Date.now() + 30000;
+  return (
+    <div className="timeline_control">
+      <Timeline
+        from={Math.round(from / 1000)}
+        to={Math.round(to / 1000)}
+        ranges={[
+          {
+            duration: 8510,
+            from: 1643536804,
+          },
+        ]}
+      />
+      <div className="menu">Menu</div>
+    </div>
+  );
 };
 
 export default TimelineControl;
