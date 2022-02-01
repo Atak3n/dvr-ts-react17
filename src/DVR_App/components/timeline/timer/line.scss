@@ -1,25 +1,35 @@
-.lines {
+.lineWrapper {
+    position: relative;
     width: 100%;
     height: 10px;
-    // background: gray;
-    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
 
-    div {
-        height: 100%;
-        position: absolute;
-    }
-
-    .empty {
+    .lines {
+        // background: gray;
+        position: relative;
+        height: 1000px;
+        transform: translateY(-500px);
         background: red;
-    }
 
-    .hit {
-        background: green;
-    }
+        div {
+            position: relative;
+            height: 1000px;
+        }
 
-    .buffering {
-        background-image: linear-gradient(to right, rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)), linear-gradient(to right, #3f51b5, #3f51b5);
-        -webkit-mask: url('./buffering.svg');
-        mask: url('./buffering.svg');
+        .empty {
+            background: red;
+        }
+
+        .hit {
+            background: green;
+        }
+
+        .buffering {
+            background-image: linear-gradient(to right, rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)), linear-gradient(to right, #3f51b5, #3f51b5);
+            -webkit-mask: url('./buffering.svg');
+            mask: url('./buffering.svg');
+        }
     }
 }

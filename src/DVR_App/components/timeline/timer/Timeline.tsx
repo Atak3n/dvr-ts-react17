@@ -3,18 +3,20 @@ import "./timeline.scss";
 import Markers from "./Markers";
 import Line from "./Line";
 interface ChildProps {
-  from: number;
-  to: number;
+  visibleFrom: number;
+  visibleTo: number;
   ranges: { duration: number; from: number }[];
 }
 
-const Timeline: React.FC<ChildProps> = ({ from, to, ranges }) => {
-  const [sections, setSections] = useState<
-    { duration: number; from: number; type: string }[]
-  >([]);
+const Timeline: React.FC<ChildProps> = ({ visibleFrom, visibleTo, ranges }) => {
+  const [observable, setObservable] = useState<{ to: number; from: number }>({
+    from: visibleFrom,
+    to: visibleTo,
+  });
+
   useEffect(() => {
-    buildSections(from, to, ranges);
-  }, []);
+    buildSections(visibleFrom, visibleTo, ranges);
+  }, [ranges]);
 
   const buildSections = (
     from: number,
@@ -63,7 +65,7 @@ const Timeline: React.FC<ChildProps> = ({ from, to, ranges }) => {
   return (
     <div className="timeline">
       <Markers />
-      <Line sections={sections} />
+      <Line ranges={ranges} />
     </div>
   );
 };

@@ -5,17 +5,18 @@ interface ChildProps {}
 
 const TimelineControl: React.FC<ChildProps> = () => {
   // 86400
-  const from = Date.now() - 56400;
-  const to = Date.now() + 30000;
+  const visibleFrom = Math.round((Date.now() - 56400) / 1000);
+  const visibleTo = Math.round((Date.now() + 30000) / 1000);
+  
   return (
     <div className="timeline_control">
       <Timeline
-        from={Math.round(from / 1000)}
-        to={Math.round(to / 1000)}
+        visibleFrom={visibleFrom}
+        visibleTo={visibleTo}
         ranges={[
           {
-            duration: 9670,
-            from: 1643610826,
+            duration: 9610,
+            from: 1643682086,
           },
         ]}
       />
