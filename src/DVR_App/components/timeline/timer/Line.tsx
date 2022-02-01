@@ -17,7 +17,7 @@ const Line: React.FC<ChildProps> = ({ ranges }) => {
             const { from, duration } = ranges;
             return (
               <div
-                //   key={`${type}_${from}`}
+                  key={`key_${from}`}
                 className="hit"
                 style={{
                   transform: `translateX(-${from}px)`,
