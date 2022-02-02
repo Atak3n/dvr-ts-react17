@@ -10,25 +10,62 @@ interface ChildProps {
 }
 
 const Timeline: React.FC<ChildProps> = ({ visibleFrom, visibleTo, ranges }) => {
+  const now = Math.round(Date.now() / 1000);
   const [observable, setObservable] = useState<{ to: number; from: number }>({
     from: visibleFrom,
     to: visibleTo,
   });
+  const [sections, setSections] = useState<
+    { duration: number; from: number; type: string; order: number }[]
+  >([
+    {
+      from: observable.from,
+      duration: now - observable.from,
+      type: "empty",
+      order: 1,
+    },
+    {
+      from: now,
+      duration: 30000,
+      type: "buffering",
+      order: 0,
+    },
+  ]);
 
   useEffect(() => {
-    buildSections(visibleFrom, visibleTo, ranges);
+    getOservables(ranges);
   }, [ranges]);
 
-  const buildSections = (
-    from: number,
-    to: number,
-    ranges: { duration: number; from: number }[]
-  ) => {
+  const getOservables = (ranges: { duration: number; from: number }[]) => {
+    let minimalFrom = visibleFrom;
+    ranges.forEach((range) => {
+      if (range.from && range.from < minimalFrom) {
+        minimalFrom = range.from;
+      }
+    });
+    setObservable({
+      from: minimalFrom,
+      to: observable.to,
+    });
+  };
+
+  useEffect(() => {
+    buildSections(ranges);
+  }, [observable]);
+
+  const buildSections = (ranges: { duration: number; from: number }[]) => {
+    let sections = [
+      {
+        from: now,
+        duration: 30000,
+        type: "buffering",
+        order: 0,
+      },
+    ];
     // const timeline = to - from;
     // const inPercent = (value: number) => {
     //   return value / (timeline / 100);
     // };
-    // let sections: { duration: number; from: number; type: string }[] = [];
     // const now = Math.round(Date.now() / 1000);
     // if (now > from && now < to) {
     //   sections.push({
@@ -37,35 +74,42 @@ const Timeline: React.FC<ChildProps> = ({ visibleFrom, visibleTo, ranges }) => {
     //     type: "buffering",
     //   });
     // }
-    // ranges.forEach((range) => {
-    //   // debugger;
-    //   const { from: rangeFrom, duration } = range;
-    //   // check if range in viewpport
-    //   console.log(from - (rangeFrom + duration));
-    //   if (rangeFrom + duration > from && rangeFrom < to) {
-    //     if (rangeFrom > from) {
-    //       sections.push({
-    //         from: inPercent(rangeFrom),
-    //         duration: inPercent(duration) > 100 ? 100 : inPercent(duration),
-    //         type: "hit",
-    //       });
-    //     } else {
-    //       const newDur = inPercent(rangeFrom + duration - from);
-    //       sections.push({
-    //         from: 0,
-    //         duration: newDur > 100 ? 100 : newDur,
-    //         type: "hit",
-    //       });
-    //     }
-    //   }
-    // });
-    // setSections(sections);
+    let orderNum = 1;
+    ranges.forEach((range) => {
+      //   // debugger;
+      const { from, duration } = range;
+      //   // check if range in viewpport
+      //   console.log(from - (rangeFrom + duration));
+      //   if (rangeFrom + duration > from && rangeFrom < to) {
+      //     if (rangeFrom > from) {
+      //       sections.push({
+      //         from: inPercent(rangeFrom),
+      //         duration: inPercent(duration) > 100 ? 100 : inPercent(duration),
+      //         type: "hit",
+      //       });
+      //     } else {
+      //       const newDur = inPercent(rangeFrom + duration - from);
+      sections.push({
+        from: from,
+        duration: duration,
+        type: "hit",
+        order: orderNum,
+      });
+      orderNum++;
+      //     }
+      //   }
+    });
+    setSections(sections);
   };
 
   return (
     <div className="timeline">
       <Markers />
-      <Line ranges={ranges} />
+      <Line
+        sections={sections}
+        observable={observable}
+        visibleRange={visibleTo - visibleFrom}
+      />
     </div>
   );
 };

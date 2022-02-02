@@ -1,34 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./line.scss";
 interface ChildProps {
-  ranges: { duration: number; from: number }[];
+  sections: { duration: number; from: number; type: string; order: number }[];
+  observable: { to: number; from: number };
+  visibleRange: number;
 }
 
-const Line: React.FC<ChildProps> = ({ ranges }) => {
-  //   useEffect(() => {
-  //     console.log({ sections });
-  //   }, [sections]);
+const Line: React.FC<ChildProps> = ({ sections, observable, visibleRange }) => {
+  const wrapper = useRef<HTMLDivElement>(null);
+  const [zoom, setZoom] = useState<number>(0.25);
+  const { from, to } = observable;
+
+  useEffect(() => {
+    if (!wrapper.current) return;
+    const { offsetWidth } = wrapper.current;
+    setZoom(offsetWidth / visibleRange);
+  }, [visibleRange, wrapper.current]);
 
   return (
-    <div className="lineWrapper">
-      <div className="lines">
-        {ranges.length ? (
-          ranges.map((ranges) => {
-            const { from, duration } = ranges;
-            return (
-              <div
-                  key={`key_${from}`}
-                className="hit"
-                style={{
-                  transform: `translateX(-${from}px)`,
-                  width: `${duration}px`,
-                }}
-              ></div>
-            );
-          })
-        ) : (
-          <div className="empty" style={{ left: 0, width: "100%" }}></div>
-        )}
+    <div className="lineWrapper" ref={wrapper}>
+      <div className="lines" style={{ width: `${to - from}px`, zoom }}>
+        {sections.map((section) => {
+          const { from, duration, type, order } = section;
+          return (
+            <div
+              key={`${type}_${from}`}
+              className={type}
+              style={{
+                width: `${duration}px`,
+                order,
+              }}
+            ></div>
+          );
+        })}
       </div>
     </div>
   );

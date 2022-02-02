@@ -4,19 +4,19 @@
     height: 10px;
     overflow: hidden;
     display: flex;
-    justify-content: center;
+    align-items: center;
     border-radius: 4px;
 
     .lines {
-        // background: gray;
         position: relative;
-        height: 1000px;
-        transform: translateY(-500px);
-        background: red;
+        height: 10000px;
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: nowrap;
 
         div {
-            position: relative;
-            height: 1000px;
+            height: 10000px;
+            flex-shrink: 0;
         }
 
         .empty {
