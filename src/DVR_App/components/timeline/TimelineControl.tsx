@@ -22,7 +22,6 @@ const TimelineControl: React.FC<ChildProps> = ({ from, url }) => {
         `${url}/recording_status.json?from=${visibleFrom}&to=${visibleTo}&request=motion_log,ranges`
       )
       .then(function (response) {
-        console.log(response);
         const { data } = response;
         const { ranges } = data[0];
         setRanges(ranges);

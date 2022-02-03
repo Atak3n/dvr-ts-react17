@@ -75,30 +75,33 @@ const Timeline: React.FC<ChildProps> = ({ visibleFrom, visibleTo, ranges }) => {
     //   });
     // }
     let orderNum = 1;
-    ranges.forEach((range) => {
-      //   // debugger;
-      const { from, duration } = range;
-      //   // check if range in viewpport
-      //   console.log(from - (rangeFrom + duration));
-      //   if (rangeFrom + duration > from && rangeFrom < to) {
-      //     if (rangeFrom > from) {
-      //       sections.push({
-      //         from: inPercent(rangeFrom),
-      //         duration: inPercent(duration) > 100 ? 100 : inPercent(duration),
-      //         type: "hit",
-      //       });
-      //     } else {
-      //       const newDur = inPercent(rangeFrom + duration - from);
-      sections.push({
-        from: from,
-        duration: duration,
-        type: "hit",
-        order: orderNum,
+    let checkingTime = now;
+    while (checkingTime >= observable.from) {
+      ranges.forEach((range) => {
+        const { from, duration } = range;
+
+        sections.push({
+          from: from,
+          duration: duration,
+          type: "hit",
+          order: orderNum,
+        });
+        checkingTime = range.from;
+        orderNum++;
+        console.log({ checkingTime, obsFr: observable.from });
       });
-      orderNum++;
-      //     }
-      //   }
-    });
+      if (checkingTime > observable.from) {
+        console.log("Bingo!");
+        sections.push({
+          from: observable.from,
+          duration: checkingTime - observable.from,
+          type: "empty",
+          order: orderNum,
+        });
+        checkingTime = observable.from - 1;
+        orderNum++;
+      }
+    }
     setSections(sections);
   };
 
