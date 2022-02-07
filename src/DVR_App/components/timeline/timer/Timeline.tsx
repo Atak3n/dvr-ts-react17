@@ -79,7 +79,16 @@ const Timeline: React.FC<ChildProps> = ({ visibleFrom, visibleTo, ranges }) => {
     while (checkingTime >= observable.from) {
       ranges.forEach((range) => {
         const { from, duration } = range;
-
+        const emWidth = from + duration;
+        // if (emWidth < checkingTime) {
+          sections.push({
+            from: emWidth,
+            duration: checkingTime - emWidth,
+            type: "empty",
+            order: orderNum,
+          });
+          orderNum++;
+        // }
         sections.push({
           from: from,
           duration: duration,
@@ -91,7 +100,6 @@ const Timeline: React.FC<ChildProps> = ({ visibleFrom, visibleTo, ranges }) => {
         console.log({ checkingTime, obsFr: observable.from });
       });
       if (checkingTime > observable.from) {
-        console.log("Bingo!");
         sections.push({
           from: observable.from,
           duration: checkingTime - observable.from,

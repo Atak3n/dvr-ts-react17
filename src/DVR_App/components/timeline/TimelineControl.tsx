@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Timeline from "./timer/Timeline";
-import "./timeline_control.scss";
 import axios from "axios";
+import "./timeline_control.scss";
+import Timeline from "./timer/Timeline";
+import Menu from "./menu/Menu";
 
 interface ChildProps {
   from: number;
@@ -41,7 +42,7 @@ const TimelineControl: React.FC<ChildProps> = ({ from, url }) => {
         visibleTo={visibleTo}
         ranges={ranges}
       />
-      <div className="menu">Menu</div>
+      <Menu />
     </div>
   );
 };

@@ -1,0 +1,27 @@
+.menu {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+    padding: 4px 12px 8px;
+
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        background: gray;
+        border-radius: 50%;
+        height: 48px;
+        width: 48px;
+        font-size: 32px;
+        margin-right: 8px;
+        cursor: pointer;
+
+        &:hover {
+            color: black;
+            background: lightblue;
+        }
+    }
+}
