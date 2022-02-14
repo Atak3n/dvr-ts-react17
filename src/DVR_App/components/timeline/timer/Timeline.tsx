@@ -92,7 +92,12 @@ const Timeline: React.FC<ChildProps> = ({
 
   return (
     <div className="timeline">
-      <Markers zoomIn={zoomIn} zoomOut={zoomOut} />
+      <Markers
+        zoomIn={zoomIn}
+        zoomOut={zoomOut}
+        visibleFrom={visibleFrom}
+        visibleTo={visibleTo}
+      />
       <Line
         sections={sections}
         observable={observable}
