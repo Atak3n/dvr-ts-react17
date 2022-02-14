@@ -3,10 +3,16 @@ import "./line.scss";
 interface ChildProps {
   sections: { duration: number; from: number; type: string; order: number }[];
   observable: { to: number; from: number };
-  visibleRange: number;
+  visibleFrom: number;
+  visibleTo: number;
 }
 
-const Line: React.FC<ChildProps> = ({ sections, observable, visibleRange }) => {
+const Line: React.FC<ChildProps> = ({
+  sections,
+  observable,
+  visibleFrom,
+  visibleTo,
+}) => {
   const wrapper = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState<number>(0.25);
   const { from, to } = observable;
@@ -14,8 +20,8 @@ const Line: React.FC<ChildProps> = ({ sections, observable, visibleRange }) => {
   useEffect(() => {
     if (!wrapper.current) return;
     const { offsetWidth } = wrapper.current;
-    setZoom(offsetWidth / visibleRange);
-  }, [visibleRange, wrapper.current]);
+    setZoom(offsetWidth / (visibleTo - visibleFrom));
+  }, [visibleFrom, visibleTo, wrapper.current]);
 
   return (
     <div className="lineWrapper" ref={wrapper}>

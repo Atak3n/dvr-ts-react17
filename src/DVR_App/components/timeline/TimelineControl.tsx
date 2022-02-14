@@ -44,7 +44,6 @@ const TimelineControl: React.FC<ChildProps> = ({ from, url }) => {
   }, [ranges]);
 
   const getOservables = (rangesData: { duration: number; from: number }[]) => {
-    console.trace('getOservables', ranges)
     let minimalFrom = visibleFrom;
     rangesData.forEach((range) => {
       if (range.from && range.from < minimalFrom) {
@@ -58,13 +57,22 @@ const TimelineControl: React.FC<ChildProps> = ({ from, url }) => {
   };
 
   const zoomIn = () => {
-    setVisibleFrom(visibleFrom - 200);
+    console.log("zoomIn");
+    setVisibleFrom(visibleFrom + 200);
     setVisibleTo(visibleTo - 200);
   };
 
   const zoomOut = () => {
-    setVisibleFrom(visibleFrom + 200);
-    setVisibleTo(visibleTo + 200);
+    if (visibleFrom - 200 < observable.from) {
+      setVisibleFrom(observable.from);
+    } else {
+      setVisibleFrom(visibleFrom - 200);
+    }
+    if (visibleTo + 200 > observable.to) {
+      setVisibleTo(observable.to);
+    } else {
+      setVisibleTo(visibleTo + 200);
+    }
   };
 
   return (

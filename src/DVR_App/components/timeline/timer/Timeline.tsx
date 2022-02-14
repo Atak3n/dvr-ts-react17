@@ -22,7 +22,6 @@ const Timeline: React.FC<ChildProps> = ({
   zoomIn,
   zoomOut,
 }) => {
-  const visibleRange = visibleTo - visibleFrom;
   const [sections, setSections] = useState<
     { duration: number; from: number; type: string; order: number }[]
   >([
@@ -97,7 +96,8 @@ const Timeline: React.FC<ChildProps> = ({
       <Line
         sections={sections}
         observable={observable}
-        visibleRange={visibleRange}
+        visibleFrom={visibleFrom}
+        visibleTo={visibleTo}
       />
     </div>
   );
