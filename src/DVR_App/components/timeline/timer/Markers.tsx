@@ -13,15 +13,23 @@ const Markers: React.FC<ChildProps> = ({
   visibleFrom,
   visibleTo,
 }) => {
-  const { markers, setMarkers } = useState<[]>();
+  let [markers, setMarkers] = useState<number[]>([]);
 
   useEffect(() => {
     const step = (visibleTo - visibleFrom) / 10;
+    markers = [];
     for (let i = visibleFrom; i <= visibleTo; i = i + step) {
       markers.push(i);
       setMarkers(markers);
     }
   }, [visibleFrom, visibleTo]);
+
+  const toHumanTime = (utc: number) => {
+    const date = new Date(utc * 1000);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+  };
 
   return (
     <div
@@ -36,7 +44,13 @@ const Markers: React.FC<ChildProps> = ({
         }
       }}
     >
-      Markers
+      {markers.map((marker) => {
+        return (
+          <div key={marker}>
+            <p data-utc={marker}>{toHumanTime(marker)}</p>
+          </div>
+        );
+      })}
     </div>
   );
 };
